@@ -2,7 +2,7 @@ import { Body, Controller, Get, Post, Res } from '@nestjs/common';
 import { Response } from 'express';
 import * as fs from 'fs';
 import * as path from 'path';
-import { ApiTags, ApiConsumes } from '@nestjs/swagger';
+import { ApiTags, ApiConsumes, ApiExcludeEndpoint } from '@nestjs/swagger';
 import { FilterDto } from './dtos/filter.dto';
 import { AppService } from './app.service';
 
@@ -46,6 +46,7 @@ export class AppController {
     return savePath;
   }
 
+  @ApiExcludeEndpoint()
   @Get('/download')
   async downloadCsv(@Res() res: Response) {
     const downloadPath = path.join(__dirname, '..', 'src/csv/users.csv');
