@@ -1,14 +1,19 @@
-import { Body, Controller, Get, Post, Res } from '@nestjs/common';
-import { AppService } from './app.service';
+import { Body, Controller, Get, Post, Res, } from '@nestjs/common';
 import { Response } from 'express';
 import * as fs from 'fs';
 import * as path from 'path';
+import { ApiTags, ApiConsumes } from '@nestjs/swagger';
+import { FilterDto } from './dtos/filter.dto';
+import { AppService } from './app.service';
+
 @Controller()
+@ApiTags('Google Analytics Module')
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly appService: AppService) { }
 
   @Post('generate')
-  async generate(@Body() body: { fromDate: string; toDate: string }) {
+  async generate(@Body() body: FilterDto) {
+    // console.log(body);
     const { fromDate, toDate } = body;
     const data = await this.appService.generate(fromDate, toDate);
     const csvContent = this.generateCsv(data);
@@ -33,14 +38,8 @@ export class AppController {
   }
 
   async saveFile(content: string, filename: string): Promise<string> {
-    const savePath = path.join(
-      'D:',
-      'Work',
-      'analytics',
-      'src',
-      'csv',
-      filename,
-    );
+    const savePath = path.join(__dirname, '..', 'src/csv/' + filename);
+
 
     await fs.promises.writeFile(savePath, content);
 
@@ -49,20 +48,11 @@ export class AppController {
 
   @Get('/download')
   async downloadCsv(@Res() res: Response) {
-    const savePath = path.join(
-      'D:',
-      'Work',
-      'analytics',
-      'src',
-      'csv',
-      'users.csv',
-    );
+    const downloadPath = path.join(__dirname, '..', 'src/csv/users.csv');
     try {
-      const csvContent = await fs.promises.readFile(savePath, 'utf-8');
-
+      const csvContent = await fs.promises.readFile(downloadPath, 'utf-8');
       res.setHeader('Content-Type', 'text/csv');
       res.setHeader('Content-Disposition', `attachment; filename=users.xls`);
-
       res.send(csvContent);
     } catch (error) {
       res.status(404).send('File not found');
