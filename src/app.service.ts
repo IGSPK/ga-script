@@ -101,6 +101,16 @@ export class AppService {
       },
     });
 
-    return response.data.reports[0].data.rows;
+    // Transform dimensions to the desired format "YYYY-MM-DD"
+    const formattedData = response.data.reports[0].data.rows.map((row) => {
+      const dimension = row.dimensions[0];
+      const formattedDimension = `${dimension.substring(
+        0,
+        4,
+      )}-${dimension.substring(4, 6)}-${dimension.substring(6, 8)}`;
+      return { dimensions: [formattedDimension], metrics: row.metrics };
+    });
+
+    return formattedData;
   }
 }
