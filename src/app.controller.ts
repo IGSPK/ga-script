@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Res, } from '@nestjs/common';
+import { Body, Controller, Get, Post, Res } from '@nestjs/common';
 import { Response } from 'express';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -9,13 +9,11 @@ import { AppService } from './app.service';
 @Controller()
 @ApiTags('Google Analytics Module')
 export class AppController {
-  constructor(private readonly appService: AppService) { }
+  constructor(private readonly appService: AppService) {}
 
   @Post('generate')
   async generate(@Body() body: FilterDto) {
-    // console.log(body);
-    const { fromDate, toDate } = body;
-    const data = await this.appService.generate(fromDate, toDate);
+    const data = await this.appService.generate(body);
     const csvContent = this.generateCsv(data);
     const filePath = await this.saveFile(csvContent, 'users.csv');
     return 'file created successfully';
@@ -39,7 +37,6 @@ export class AppController {
 
   async saveFile(content: string, filename: string): Promise<string> {
     const savePath = path.join(__dirname, '..', 'src/csv/' + filename);
-
 
     await fs.promises.writeFile(savePath, content);
 
