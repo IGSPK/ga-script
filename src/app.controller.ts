@@ -16,7 +16,10 @@ export class AppController {
     const data = await this.appService.generate(body);
     const csvContent = this.generateCsv(data);
     const filePath = await this.saveFile(csvContent, 'users.csv');
-    return 'file created successfully';
+    return {
+      message:
+        'Your google analytics report for page views, users & sessions with organic traffic saved successfully!!! you can download your .xls file form localhost:8000/api/download',
+    };
   }
 
   generateCsv(data: any[]): string {

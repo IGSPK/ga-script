@@ -85,6 +85,17 @@ export class AppService {
               { expression: 'ga:pageviews' },
             ],
             dimensions: [{ name: 'ga:date' }],
+            dimensionFilterClauses: [
+              {
+                filters: [
+                  {
+                    dimensionName: 'ga:medium',
+                    operator: 'EXACT',
+                    expressions: ['organic'],
+                  },
+                ],
+              },
+            ],
           },
         ],
       },
