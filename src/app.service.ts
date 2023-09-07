@@ -68,7 +68,13 @@ export class AppService {
               { expression: 'ga:users' },
               { expression: 'ga:sessions' },
               { expression: 'ga:pageviews' },
-              { expression: 'ga:goalCompletionsAll' },
+              { expression: 'ga:goalCompletionsAll' }, // Add conversion metric
+              { expression: 'ga:transactionRevenue' }, // Add revenue metric
+              { expression: 'ga:itemQuantity' }, // Add sales metric
+
+              // { expression: 'ga:productAddsToCart' }, // Add add_to_cart metric
+              // { expression: 'ga:cartToDetailRate' }, // Add abandoned_cart metric
+              // { expression: 'ga:productDetailViews' }, // Add product view metric
             ],
             dimensions: [{ name: 'ga:date' }],
             dimensionFilterClauses: [

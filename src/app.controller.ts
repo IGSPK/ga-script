@@ -14,6 +14,7 @@ export class AppController {
   @Post('generate')
   async generate(@Body() body: FilterDto) {
     const data = await this.appService.generate(body);
+    // return data
     const csvContent = this.generateCsv(data);
     const filePath = await this.saveFile(csvContent, 'users.csv');
     return {
@@ -23,7 +24,7 @@ export class AppController {
   }
 
   generateCsv(data: any[]): string {
-    const csvRows = ['Date,Users,Sessions,PageViews,Conversion'];
+    const csvRows = ['Date,Users,Sessions,PageViews,Conversion,Revenue,Sales'];
 
     data.forEach((row) => {
       const date = row.dimensions[0];
@@ -31,8 +32,12 @@ export class AppController {
       const sessions = row.metrics[0].values[1];
       const pageViews = row.metrics[0].values[2];
       const conversion = row.metrics[0].values[3];
+      const revenue = row.metrics[0].values[4];
+      const sales = row.metrics[0].values[5];
 
-      const csvRow = `${date},${users},${sessions},${pageViews},${conversion}`;
+
+
+      const csvRow = `${date},${users},${sessions},${pageViews},${conversion},${revenue},${sales},`;
       csvRows.push(csvRow);
     });
 
