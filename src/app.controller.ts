@@ -23,15 +23,20 @@ export class AppController {
   }
 
   generateCsv(data: any[]): string {
-    const csvRows = ['Date,Users,Sessions,PageViews'];
+    const csvRows = ['Date,Users,Sessions,PageViews,Conversion,Revenue,Sales,Checkout,Purchase'];
 
     data.forEach((row) => {
       const date = row.dimensions[0];
       const users = row.metrics[0].values[0];
       const sessions = row.metrics[0].values[1];
       const pageViews = row.metrics[0].values[2];
+      const conversion = row.metrics[0].values[3];
+      const revenue = row.metrics[0].values[4];
+      const sales = row.metrics[0].values[5];
+      const checkout = row.metrics[0].values[6];
+      const purchase = row.metrics[0].values[7];
 
-      const csvRow = `${date},${users},${sessions},${pageViews}`;
+      const csvRow = `${date},${users},${sessions},${pageViews},${conversion},${revenue},${sales},${checkout},${purchase}`;
       csvRows.push(csvRow);
     });
 
