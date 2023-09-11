@@ -22,24 +22,10 @@ export class AppController {
     };
   }
 
-  @Post('productviews')
-  async getSessionsWithProductViews(@Body() body: FilterDto) {
-    const data = await this.appService.getProductViews(body);
-    const csvContent = this.generateCsvForProductViews(data);
-    const filePath = await this.saveFile(csvContent, 'productViews.csv');
-    return {
-      message:
-        'Your google analytics report for page views, users & sessions with organic traffic saved successfully!!! you can download your .xls file form localhost:8000/api/download/productviews',
-    };
-  }
-
-  
-
-
 
   generateCsv(data: any[]): string {
     const csvRows = [
-      'Date,Users,Sessions,PageViews,Conversion,Revenue,Sales,Checkout,Purchase',
+      'Date,Users,Sessions,PageViews,Conversion,Revenue,Sales,Checkout,Purchase,Product Views',
     ];
 
     data.forEach((row) => {
@@ -52,30 +38,17 @@ export class AppController {
       const sales = row.metrics[0].values[5];
       const checkout = row.metrics[0].values[6];
       const purchase = row.metrics[0].values[7];
+      const productViews = row.metrics[0].values[8];
 
-      const csvRow = `${date},${users},${sessions},${pageViews},${conversion},${revenue},${sales},${checkout},${purchase}`;
+
+      const csvRow = `${date},${users},${sessions},${pageViews},${conversion},${revenue},${sales},${checkout},${purchase},${productViews},`;
       csvRows.push(csvRow);
     });
 
     return csvRows.join('\n');
   }
 
-  generateCsvForProductViews(data: any[]): string {
-    const csvRows = [
-      'Date,Product Views',
-    ];
 
-    data.forEach((row) => {
-      const date = row.dimensions[0];
-      const productViews = row.metrics[0].values[0];
-   
-
-      const csvRow = `${date},${productViews}`;
-      csvRows.push(csvRow);
-    });
-
-    return csvRows.join('\n');
-  }
 
   async saveFile(content: string, filename: string): Promise<string> {
     const savePath = path.join(__dirname, '..', 'src/csv/' + filename);
