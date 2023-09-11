@@ -22,7 +22,6 @@ export class AppController {
     };
   }
 
-
   generateCsv(data: any[]): string {
     const csvRows = [
       'Date,Users,Sessions,PageViews,Conversion,Revenue,Sales,Checkout,Purchase,Product Views',
@@ -35,20 +34,17 @@ export class AppController {
       const pageViews = row.metrics[0].values[2];
       const conversion = row.metrics[0].values[3];
       const revenue = row.metrics[0].values[4];
-      const sales = row.metrics[0].values[5];
+      // const sales = row.metrics[0].values[5];
       const checkout = row.metrics[0].values[6];
       const purchase = row.metrics[0].values[7];
       const productViews = row.metrics[0].values[8];
 
-
-      const csvRow = `${date},${users},${sessions},${pageViews},${conversion},${revenue},${sales},${checkout},${purchase},${productViews},`;
+      const csvRow = `${date},${users},${sessions},${pageViews},${conversion},${revenue},${checkout},${purchase},${productViews},`;
       csvRows.push(csvRow);
     });
 
     return csvRows.join('\n');
   }
-
-
 
   async saveFile(content: string, filename: string): Promise<string> {
     const savePath = path.join(__dirname, '..', 'src/csv/' + filename);
@@ -72,7 +68,6 @@ export class AppController {
     }
   }
 
-
   @ApiExcludeEndpoint()
   @Get('/download/productviews')
   async downloadProductViewsCsv(@Res() res: Response) {
@@ -80,13 +75,13 @@ export class AppController {
     try {
       const csvContent = await fs.promises.readFile(downloadPath, 'utf-8');
       res.setHeader('Content-Type', 'text/csv');
-      res.setHeader('Content-Disposition', `attachment; filename=productViews.xls`);
+      res.setHeader(
+        'Content-Disposition',
+        `attachment; filename=productViews.xls`,
+      );
       res.send(csvContent);
     } catch (error) {
       res.status(404).send('File not found');
     }
   }
-
-
-
 }

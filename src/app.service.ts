@@ -73,10 +73,10 @@ export class AppService {
               { expression: 'ga:pageviews' },
               { expression: 'ga:goalCompletionsAll' }, // Add conversion metric
               { expression: 'ga:transactionRevenue' }, // Add revenue metric
-              { expression: 'ga:itemQuantity' }, // Add sales metric
+              // { expression: 'ga:itemQuantity' }, // Add sales metric
               { expression: 'ga:transactions' }, // Add transactions metric for purchases
               { expression: 'ga:uniquePurchases' }, // Add unique purchases metric
-             { expression: 'ga:productDetailViews'},
+              { expression: 'ga:productDetailViews' },
             ],
             dimensions: [{ name: 'ga:date' }],
             dimensionFilterClauses: [
@@ -107,5 +107,4 @@ export class AppService {
 
     return formattedData;
   }
-
 }
