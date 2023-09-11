@@ -24,7 +24,7 @@ export class AppController {
 
   generateCsv(data: any[]): string {
     const csvRows = [
-      'Date,Users,Sessions,PageViews,Conversion,Revenue,Sales,Checkout,Purchase,Product Views',
+      'Date,Users,Sessions,PageViews,Conversion,Revenue,Checkout,Purchase,Product Views',
     ];
 
     data.forEach((row) => {
@@ -34,10 +34,9 @@ export class AppController {
       const pageViews = row.metrics[0].values[2];
       const conversion = row.metrics[0].values[3];
       const revenue = row.metrics[0].values[4];
-      // const sales = row.metrics[0].values[5];
-      const checkout = row.metrics[0].values[6];
-      const purchase = row.metrics[0].values[7];
-      const productViews = row.metrics[0].values[8];
+      const checkout = row.metrics[0].values[5];
+      const purchase = row.metrics[0].values[6];
+      const productViews = row.metrics[0].values[7];
 
       const csvRow = `${date},${users},${sessions},${pageViews},${conversion},${revenue},${checkout},${purchase},${productViews},`;
       csvRows.push(csvRow);
